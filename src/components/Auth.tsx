@@ -10,7 +10,7 @@ export default function Auth() {
       setLoading(true);
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
-      alert('Check your email for the login link!');
+      alert('リンクのためのメールをご確認ください。');
     } catch (error: any) {
       alert(error.error_description || error.message);
     } finally {
@@ -22,9 +22,7 @@ export default function Auth() {
     <div className='row flex flex-center'>
       <div className='col-6 form-widget'>
         <h1 className='header'>Supabase + Vite</h1>
-        <p className='description'>
-          下記Eメールでマジックリングでログイン
-        </p>
+        <p className='description'>下記Eメールでマジックリンクでログイン</p>
         <div>
           <input
             className='inputField'
@@ -43,7 +41,7 @@ export default function Auth() {
             className='button block'
             disabled={loading}
           >
-            <span>{loading ? 'Loading' : 'Send magic link'}</span>
+            <span>{loading ? '読み込み中...' : 'マジックリンクを送信'}</span>
           </button>
         </div>
       </div>

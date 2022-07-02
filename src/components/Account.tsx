@@ -7,17 +7,16 @@ type Props = {
 };
 
 const isApiError = (val: any): val is ApiError =>
-  val && typeof val.message === 'string' && typeof val.status === 'number';
+  val && typeof val.message === 'string';
 
 const alertApiError = (error: any) => {
   if (isApiError(error)) {
     alert(error.message);
   } else {
-    alert(`Error: error is not ApiError --- ${error}`);
+    alert(`Error: error is not ApiError --- ${JSON.stringify(error)}`);
+    console.error(error);
   }
 };
-
-// alertApiError(error);
 
 export default function Account({ session }: Props) {
   const [loading, setLoading] = useState(true);
@@ -56,7 +55,15 @@ export default function Account({ session }: Props) {
     }
   }
 
-  async function updateProfile({ username, website, avatar_url }: { username: any; website: any; avatar_url: any; }) {
+  async function updateProfile({
+    username,
+    website,
+    avatar_url,
+  }: {
+    username: any;
+    website: any;
+    avatar_url: any;
+  }) {
     try {
       setLoading(true);
       const user = supabase.auth.user();
@@ -86,11 +93,11 @@ export default function Account({ session }: Props) {
   return (
     <div className='form-widget'>
       <div>
-        <label htmlFor='email'>Email</label>
+        <label htmlFor='email'>電子メール</label>
         <input id='email' type='text' value={session?.user?.email} disabled />
       </div>
       <div>
-        <label htmlFor='username'>Name</label>
+        <label htmlFor='username'>名前</label>
         <input
           id='username'
           type='text'
@@ -99,7 +106,7 @@ export default function Account({ session }: Props) {
         />
       </div>
       <div>
-        <label htmlFor='website'>Website</label>
+        <label htmlFor='website'>ウェブサイト</label>
         <input
           id='website'
           type='website'
@@ -114,7 +121,7 @@ export default function Account({ session }: Props) {
           onClick={() => updateProfile({ username, website, avatar_url })}
           disabled={loading}
         >
-          {loading ? 'Loading ...' : 'Update'}
+          {loading ? '読み込み中...' : '更新'}
         </button>
       </div>
 
@@ -123,7 +130,7 @@ export default function Account({ session }: Props) {
           className='button block'
           onClick={() => supabase.auth.signOut()}
         >
-          Sign Out
+          ログアウト
         </button>
       </div>
     </div>

@@ -1,12 +1,12 @@
+import './App.css';
 import { useState, useEffect } from 'react';
 import { supabase } from './utils/supabaseClient';
 import Auth from './components/Auth';
 import Account from './components/Account';
 import { Session } from '@supabase/gotrue-js';
-import './App.css'
 
 function App() {
-  const [session, setSession] = useState<Session|null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     setSession(supabase.auth.session());
