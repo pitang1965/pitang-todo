@@ -1,21 +1,11 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
-import { Session, ApiError } from '@supabase/gotrue-js';
+import { Session } from '@supabase/gotrue-js';
+import { alertApiError } from '../utils/alertApiError';
+import Avatar from './Avatar';
 
 type Props = {
   session: Session;
-};
-
-const isApiError = (val: any): val is ApiError =>
-  val && typeof val.message === 'string';
-
-const alertApiError = (error: any) => {
-  if (isApiError(error)) {
-    alert(error.message);
-  } else {
-    alert(`Error: error is not ApiError --- ${JSON.stringify(error)}`);
-    console.error(error);
-  }
 };
 
 export default function Account({ session }: Props) {
@@ -92,6 +82,14 @@ export default function Account({ session }: Props) {
 
   return (
     <div className='form-widget'>
+      <Avatar
+        url={avatar_url}
+        size={150}
+        onUpload={(url: any) => {
+          setAvatarUrl(url);
+          updateProfile({ username, website, avatar_url: url });
+        }}
+      />
       <div>
         <label htmlFor='email'>電子メール</label>
         <input id='email' type='text' value={session?.user?.email} disabled />
