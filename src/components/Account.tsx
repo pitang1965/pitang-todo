@@ -3,6 +3,7 @@ import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
 import { alertApiError } from '../utils/alertApiError';
 import Avatar from './Avatar';
+import Todos from './Todos';
 
 type Props = {
   session: Session;
@@ -23,7 +24,7 @@ export default function Account({ session }: Props) {
       setLoading(true);
       const user = supabase.auth.user();
 
-      let { data, error, status } = await supabase
+      const { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
         .eq('id', user?.id)
@@ -131,6 +132,7 @@ export default function Account({ session }: Props) {
           ログアウト
         </button>
       </div>
+      <Todos key={session?.user?.id} session={session} />
     </div>
   );
 }
