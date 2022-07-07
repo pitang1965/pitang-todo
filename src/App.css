@@ -244,6 +244,10 @@ input[disabled] {
 }
 .flex {
   display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  align-items: center;
+  gap: 1rem;
 }
 .flex.column {
   flex-direction: column;
@@ -259,6 +263,15 @@ input[disabled] {
 }
 .flex-center {
   justify-content: center;
+}
+.space-between {
+  justify-content: space-between;
+}
+.flex-none {
+  flex: none;
+}
+.grow {
+  flex-grow: 1;
 }
 .items-center {
   align-items: center;

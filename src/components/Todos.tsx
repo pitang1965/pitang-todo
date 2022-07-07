@@ -2,17 +2,10 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
 import { alertApiError } from '../utils/alertApiError';
-
+import TodoCard from './TodoCard';
+import type { Todo } from './TodoCard';
 type Props = {
   session: Session;
-};
-
-type Todo = {
-  id: number;
-  user_id: string;
-  task: string;
-  is_complete: boolean;
-  inserted_at: Date;
 };
 
 export default function Todos({ session }: Props) {
@@ -68,15 +61,26 @@ export default function Todos({ session }: Props) {
   return (
     <>
       <h1>やること</h1>
-      <input
-        type='text'
-        placeholder='やることを追加してください。'
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-      />
-      <button onClick={() => addNewTodo(newTask)}>追加</button>
+      <div className='flex'>
+        <input
+          type='text'
+          placeholder='やることを追加してください。'
+          value={newTask}
+          className='grow'
+          onChange={(e) => setNewTask(e.target.value)}
+        />
+
+        <button
+          className='button primary flex-none'
+          onClick={() => addNewTodo(newTask)}
+        >
+          追加
+        </button>
+      </div>
+
       <ol>
-        {todos && todos.map((todo) => <li key={todo.id}>{todo.task}</li>)}
+        {todos &&
+          todos.map((todo) => <TodoCard session={session} todo={todo} />)}
       </ol>
     </>
   );

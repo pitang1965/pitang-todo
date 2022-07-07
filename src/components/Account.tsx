@@ -114,21 +114,15 @@ export default function Account({ session }: Props) {
         />
       </div>
 
-      <div>
+      <div className='flex'>
         <button
-          className='button block primary'
+          className='button primary'
           onClick={() => updateProfile({ username, website, avatar_url })}
           disabled={loading}
         >
           {loading ? '読み込み中...' : '更新'}
         </button>
-      </div>
-
-      <div>
-        <button
-          className='button block'
-          onClick={() => supabase.auth.signOut()}
-        >
+        <button className='button' onClick={() => supabase.auth.signOut()}>
           ログアウト
         </button>
       </div>
