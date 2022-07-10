@@ -4,6 +4,7 @@ import { Session } from '@supabase/gotrue-js';
 import { alertApiError } from '../utils/alertApiError';
 import TodoCard from './TodoCard';
 import type { Todo } from './TodoCard';
+
 type Props = {
   session: Session;
 };
@@ -16,6 +17,44 @@ export default function Todos({ session }: Props) {
   useEffect(() => {
     getTodos();
   }, [session]);
+
+  async function deleteTask(id: number) {
+    alert(id);
+  }
+
+  async function toggleTaskComplete(id: number) {
+    if (!session) {
+      return;
+    }
+    try {
+      setLoading(true);
+      let newTodo: Todo | undefined;
+      const newTodos: Todo[] = todos.map((todo) => {
+        if (todo.id !== id) {
+          return todo;
+        } else {
+          newTodo = todo;
+          todo.is_complete = !todo.is_complete;
+          return newTodo;
+        }
+      });
+      if (newTodo) {
+        const { data, error } = await supabase
+          .from<Todo>('todos')
+          .update({is_complete: newTodo.is_complete})
+          .match({ id: id });
+
+        if (!data && error) {
+          throw error;
+        }
+        setTodos(newTodos);
+      }
+    } catch (error) {
+      alertApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function getTodos() {
     if (!session) {
@@ -80,7 +119,14 @@ export default function Todos({ session }: Props) {
 
       <ol>
         {todos &&
-          todos.map((todo) => <TodoCard session={session} todo={todo} />)}
+          todos.map((todo) => (
+            <TodoCard
+              key={todo.id}
+              todo={todo}
+              onDelete={deleteTask}
+              onToggleComplete={toggleTaskComplete}
+            />
+          ))}
       </ol>
     </>
   );

@@ -126,7 +126,7 @@ export default function Account({ session }: Props) {
           ログアウト
         </button>
       </div>
-      <Todos key={session?.user?.id} session={session} />
+      <Todos session={session} />
     </div>
   );
 }
