@@ -492,3 +492,9 @@ button.primary,
   margin-bottom: 10px;
   text-decoration: none;
 }
+
+/* React-Toastify */
+/* https://fkhadra.github.io/react-toastify/how-to-style/#override-existing-css-classes */
+* {
+  --toastify-color-light: red;
+}

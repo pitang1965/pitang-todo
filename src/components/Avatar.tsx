@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import VisuallyHidden from '@reach/visually-hidden';
-import { alertApiError } from '../utils/alertApiError';
+import { alertApiError, NotifyContainer } from '../utils/notify';
 
 export default function Avatar({
   url,
@@ -36,7 +36,7 @@ export default function Avatar({
     }
   };
 
-  const uploadAvatar = async (event:any) => {
+  const uploadAvatar = async (event: any) => {
     try {
       setUploading(true);
 
@@ -91,6 +91,7 @@ export default function Avatar({
           </VisuallyHidden>
         </>
       )}
+      <NotifyContainer />
     </div>
   );
 }

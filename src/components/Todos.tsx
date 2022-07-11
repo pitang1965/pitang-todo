@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
-import { alertApiError } from '../utils/alertApiError';
+import { alertApiError, NotifyContainer, notifyWarning } from '../utils/notify';
 import TodoCard from './TodoCard';
 import type { Todo } from './TodoCard';
 
@@ -26,15 +26,15 @@ export default function Todos({ session }: Props) {
       setLoading(true);
       const newTodos: Todo[] = todos.filter((todo) => todo.id !== id);
 
-        const { data, error } = await supabase
-          .from<Todo>('todos')
-          .delete()
-          .match({ id: id });
+      const { data, error } = await supabase
+        .from<Todo>('todos')
+        .delete()
+        .match({ id: id });
 
-        if (!data && error) {
-          throw error;
-        }
-        setTodos(newTodos);
+      if (!data && error) {
+        throw error;
+      }
+      setTodos(newTodos);
     } catch (error) {
       alertApiError(error);
     } finally {
@@ -61,7 +61,7 @@ export default function Todos({ session }: Props) {
       if (newTodo) {
         const { data, error } = await supabase
           .from<Todo>('todos')
-          .update({is_complete: newTodo.is_complete})
+          .update({ is_complete: newTodo.is_complete })
           .match({ id: id });
 
         if (!data && error) {
@@ -101,6 +101,10 @@ export default function Todos({ session }: Props) {
 
   const addNewTodo = async (newTask: string) => {
     if (!session) {
+      return;
+    }
+    if (newTask.length <= 3) {
+      notifyWarning('4文字以上にしてください。')
       return;
     }
     try {
@@ -148,6 +152,7 @@ export default function Todos({ session }: Props) {
             />
           ))}
       </ol>
+      <NotifyContainer />
     </>
   );
 }

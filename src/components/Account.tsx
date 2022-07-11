@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
-import { alertApiError } from '../utils/alertApiError';
+import { alertApiError, NotifyContainer } from '../utils/notify';
 import Avatar from './Avatar';
 import Todos from './Todos';
 
@@ -127,6 +127,7 @@ export default function Account({ session }: Props) {
         </button>
       </div>
       <Todos session={session} />
+      <NotifyContainer />
     </div>
   );
 }
