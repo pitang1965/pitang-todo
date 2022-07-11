@@ -114,6 +114,7 @@ export default function Todos({ session }: Props) {
         .insert({ task: newTask, user_id: session.user!.id })
         .single();
       setTodos([...todos, data!]);
+      setNewTask('');
     } catch (error) {
       alertApiError(error);
     } finally {
