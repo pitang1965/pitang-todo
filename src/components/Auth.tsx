@@ -21,7 +21,7 @@ export default function Auth() {
   return (
     <div className='row flex flex-center'>
       <div className='col-6 form-widget'>
-        <h1 className='header'>Supabase + Vite</h1>
+        <h1 className='header'>ピータンTO-DO</h1>
         <p className='description'>下記Eメールでマジックリンクでログイン</p>
         <div>
           <input
