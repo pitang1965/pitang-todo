@@ -19,7 +19,27 @@ export default function Todos({ session }: Props) {
   }, [session]);
 
   async function deleteTask(id: number) {
-    alert(id);
+    if (!session) {
+      return;
+    }
+    try {
+      setLoading(true);
+      const newTodos: Todo[] = todos.filter((todo) => todo.id !== id);
+
+        const { data, error } = await supabase
+          .from<Todo>('todos')
+          .delete()
+          .match({ id: id });
+
+        if (!data && error) {
+          throw error;
+        }
+        setTodos(newTodos);
+    } catch (error) {
+      alertApiError(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function toggleTaskComplete(id: number) {
