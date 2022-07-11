@@ -1,3 +1,5 @@
+import { VscTrash } from 'react-icons/vsc';
+
 export type Todo = {
   id: number;
   user_id: string;
@@ -16,15 +18,21 @@ export default function TodoCard({ todo, onDelete, onToggleComplete }: Props) {
   return (
     <li className='card' key={todo.id}>
       <div className='flex'>
-        <div className='grow'>{todo.task} [{todo.is_complete ? '済' : '要作業'}]</div>
+        {todo.is_complete ? (
+          <div className='grow'>
+            <del>{todo.task}</del>{' '}
+          </div>
+        ) : (
+          <div className='grow'>{todo.task} </div>
+        )}
         <button
-          className='button flex-none'
+          className='button complete-button flex-none'
           onClick={() => onToggleComplete(todo.id)}
         >
-          完了
+          {todo.is_complete ? '未完了に戻す' : '完了にする'}
         </button>
         <button className='button flex-none' onClick={() => onDelete(todo.id)}>
-          削除
+          <VscTrash />
         </button>
       </div>
     </li>
