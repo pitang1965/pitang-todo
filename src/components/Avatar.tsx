@@ -78,7 +78,7 @@ export default function Avatar({
       ) : (
         <>
           <label className='button primary block' htmlFor='single'>
-            プロフィール画像をアップロード
+            画像アップロード
           </label>
           <VisuallyHidden>
             <input

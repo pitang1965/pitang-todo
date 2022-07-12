@@ -91,12 +91,16 @@ export default function Account({ session }: Props) {
           updateProfile({ username, website, avatar_url: url });
         }}
       />
-      <div>
-        <label htmlFor='email'>電子メール</label>
+      <div className='flex'>
+        <label htmlFor='email' className='w-28'>
+          電子メール
+        </label>
         <input id='email' type='text' value={session?.user?.email} disabled />
       </div>
-      <div>
-        <label htmlFor='username'>名前</label>
+      <div className='flex'>
+        <label htmlFor='username' className='w-28'>
+          名前
+        </label>
         <input
           id='username'
           type='text'
@@ -104,8 +108,10 @@ export default function Account({ session }: Props) {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor='website'>ウェブサイト</label>
+      <div className='flex'>
+        <label htmlFor='website' className='w-28'>
+          ウェブサイト
+        </label>
         <input
           id='website'
           type='website'

@@ -289,6 +289,9 @@ input[disabled] {
 .opacity-half {
   opacity: 50%;
 }
+.w-28 {
+  width: 7rem;
+}
 
 /* Button */
 
