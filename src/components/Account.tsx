@@ -83,6 +83,7 @@ export default function Account({ session }: Props) {
 
   return (
     <div className='form-widget'>
+      <h1>{session?.user?.email}</h1>
       <Avatar
         url={avatar_url}
         size={150}
@@ -91,12 +92,7 @@ export default function Account({ session }: Props) {
           updateProfile({ username, website, avatar_url: url });
         }}
       />
-      <div className='flex'>
-        <label htmlFor='email' className='w-28'>
-          電子メール
-        </label>
-        <input id='email' type='text' value={session?.user?.email} disabled />
-      </div>
+
       <div className='flex'>
         <label htmlFor='username' className='w-28'>
           名前
