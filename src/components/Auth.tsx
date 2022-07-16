@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
+import { alertApiError, notifyInfo, NotifyContainer } from '../utils/notify';
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
@@ -10,9 +11,9 @@ export default function Auth() {
       setLoading(true);
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
-      alert('リンクのためのメールをご確認ください。');
+      notifyInfo('リンクのためのメールをご確認ください。');
     } catch (error: any) {
-      alert(error.error_description || error.message);
+      alertApiError(error.error_description || error.message);
     } finally {
       setLoading(false);
     }
@@ -45,6 +46,7 @@ export default function Auth() {
           </button>
         </div>
       </div>
+      <NotifyContainer />
     </div>
   );
 }
