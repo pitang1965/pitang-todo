@@ -11,7 +11,6 @@ export default function Auth() {
       setLoading(true);
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
-      notifyInfo('リンクのためのメールをご確認ください。');
     } catch (error: any) {
       alertApiError(error.error_description || error.message);
     } finally {
@@ -39,6 +38,7 @@ export default function Auth() {
               onClick={(e) => {
                 e.preventDefault();
                 handleLogin(email);
+                notifyInfo('リンクのためのメールをご確認ください。');
               }}
               className='button block'
               disabled={loading}
