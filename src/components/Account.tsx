@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
-import { alertApiError, NotifyContainer } from '../utils/notify';
+import { useSnackbar } from 'notistack';
+import type { SnackbarMessage } from 'notistack';
 import Avatar from './Avatar';
 import Todos from './Todos';
 
@@ -14,6 +15,7 @@ export default function Account({ session }: Props) {
   const [username, setUsername] = useState<any>(null);
   const [website, setWebsite] = useState<any>(null);
   const [avatar_url, setAvatarUrl] = useState<any>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getProfile();
@@ -40,7 +42,7 @@ export default function Account({ session }: Props) {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -75,7 +77,7 @@ export default function Account({ session }: Props) {
         throw error;
       }
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -129,7 +131,6 @@ export default function Account({ session }: Props) {
         </button>
       </div>
       <Todos session={session} />
-      <NotifyContainer />
     </div>
   );
 }

@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
-import { alertApiError, notifyInfo, NotifyContainer } from '../utils/notify';
+import { useSnackbar } from 'notistack';
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleLogin = async (email: string) => {
     try {
       setLoading(true);
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
-      notifyInfo('リンクのためのメールをご確認ください。');
+      enqueueSnackbar('リンクのためのメールをご確認ください。', {
+        variant: 'info',
+      });
     } catch (error: any) {
-      alertApiError(error.error_description || error.message);
+      enqueueSnackbar(error.error_description || error.message, {
+        variant: 'error',
+      });
     } finally {
       setLoading(false);
     }
@@ -46,7 +51,6 @@ export default function Auth() {
           </button>
         </div>
       </div>
-      <NotifyContainer />
     </div>
   );
 }

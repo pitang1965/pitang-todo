@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import VisuallyHidden from '@reach/visually-hidden';
-import { alertApiError, NotifyContainer } from '../utils/notify';
+import { useSnackbar } from 'notistack';
+import type { SnackbarMessage } from 'notistack';
 
 export default function Avatar({
   url,
@@ -14,6 +15,7 @@ export default function Avatar({
 }) {
   const [avatarUrl, setAvatarUrl] = useState<any>(null);
   const [uploading, setUploading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (url) downloadImage(url);
@@ -32,7 +34,7 @@ export default function Avatar({
         setAvatarUrl(url);
       }
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     }
   };
 
@@ -59,7 +61,7 @@ export default function Avatar({
 
       onUpload(filePath);
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setUploading(false);
     }
@@ -91,7 +93,6 @@ export default function Avatar({
           </VisuallyHidden>
         </>
       )}
-      <NotifyContainer />
     </div>
   );
 }

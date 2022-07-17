@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
-import { alertApiError, NotifyContainer, notifyWarning } from '../utils/notify';
+import { useSnackbar } from 'notistack';
+import type { SnackbarMessage } from 'notistack';
 import TodoCard from './TodoCard';
 import type { Todo } from './TodoCard';
 
@@ -13,6 +14,7 @@ export default function Todos({ session }: Props) {
   const [loading, setLoading] = useState(true);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTask, setNewTask] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getTodos();
@@ -36,7 +38,7 @@ export default function Todos({ session }: Props) {
       }
       setTodos(newTodos);
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -70,7 +72,7 @@ export default function Todos({ session }: Props) {
         setTodos(newTodos);
       }
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -93,7 +95,7 @@ export default function Todos({ session }: Props) {
       }
       setTodos(data);
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -104,7 +106,7 @@ export default function Todos({ session }: Props) {
       return;
     }
     if (newTask.length <= 3) {
-      notifyWarning('4文字以上にしてください。')
+      enqueueSnackbar('4文字以上にしてください。', { variant: 'warning' });
       return;
     }
     try {
@@ -116,7 +118,7 @@ export default function Todos({ session }: Props) {
       setTodos([...todos, data!]);
       setNewTask('');
     } catch (error) {
-      alertApiError(error);
+      enqueueSnackbar(error as SnackbarMessage, { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -153,7 +155,6 @@ export default function Todos({ session }: Props) {
             />
           ))}
       </ol>
-      <NotifyContainer />
     </>
   );
 }

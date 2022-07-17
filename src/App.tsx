@@ -4,6 +4,7 @@ import { supabase } from './utils/supabaseClient';
 import Auth from './components/Auth';
 import Account from './components/Account';
 import { Session } from '@supabase/gotrue-js';
+import { SnackbarProvider } from 'notistack';
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -17,13 +18,15 @@ function App() {
   }, []);
 
   return (
-    <div className='container' style={{ padding: '50px 0 100px 0' }}>
-      {!session ? (
-        <Auth />
-      ) : (
-        <Account key={session?.user?.id} session={session} />
-      )}
-    </div>
+    <SnackbarProvider>
+      <div className='container' style={{ padding: '50px 0 100px 0' }}>
+        {!session ? (
+          <Auth />
+        ) : (
+          <Account key={session?.user?.id} session={session} />
+        )}
+      </div>
+    </SnackbarProvider>
   );
 }
 
