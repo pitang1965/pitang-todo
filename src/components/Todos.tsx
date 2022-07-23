@@ -1,18 +1,15 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Session } from '@supabase/gotrue-js';
 import { useSnackbar } from 'notistack';
 import type { SnackbarMessage } from 'notistack';
 import TodoCard from './TodoCard';
 import type { Todo } from './TodoCard';
-import { Player, PlayerEvent } from '@lottiefiles/react-lottie-player';
-import { waitAsync } from '../utils/waitAsync';
+import { ToDoAnimation } from './TodoAnimation';
 
 type Props = {
   session: Session;
 };
-
-
 
 export default function Todos({ session }: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -23,46 +20,6 @@ export default function Todos({ session }: Props) {
     (async () => await getTodos())();
   }, [session]);
 
-  useEffect(() => playAnimation(), [todos]);
-
-  const playerRef = useRef<Player>(null);
-  const isPlayingRef = useRef<boolean>(false);
-
-  const playAnimation = () => {
-    isPlayingRef.current = true;
-    playerRef.current?.setSeeker(0);
-    playerRef.current?.play();
-    waitAsync(() => !isPlayingRef.current, 100, 3000)
-      .then(() => updateAnimationSeeker())
-      .catch((e: any) => console.error(e.message));
-  };
-
-  const handleEventPlayer = (e: PlayerEvent) => {
-    if (e === 'complete') {
-      if (isPlayingRef.current) {
-        isPlayingRef.current = false;
-      }
-    }
-  };
-
-  // アニメーション停止時のフレーム位置を決定
-  const updateAnimationSeeker = () => {
-    // アニメーションをtodoがあるときのフレーム位置にする
-    const setAnimationTodoExist = () => {
-      playerRef.current?.setSeeker(40);
-    };
-
-    // アニメーションをtodoがないときのフレーム位置にする
-    const setAnimationTodoNotExist = () => {
-      playerRef.current?.setSeeker(0);
-    };
-
-    if (todos.length > 0) {
-      setAnimationTodoExist();
-    } else {
-      setAnimationTodoNotExist();
-    }
-  };
 
   async function deleteTask(id: number) {
     if (!session) {
@@ -158,13 +115,7 @@ export default function Todos({ session }: Props) {
 
   return (
     <>
-      <Player
-        src='https://assets8.lottiefiles.com/packages/lf20_z4cshyhf.json'
-        ref={playerRef}
-        style={{ width: '30vw' }}
-        autoplay
-        onEvent={handleEventPlayer}
-      />
+      <ToDoAnimation todos={todos} />
       <div className='flex'>
         <input
           type='text'
