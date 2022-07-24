@@ -16,7 +16,7 @@ type Props = {
 
 export default function TodoCard({ todo, onDelete, onToggleComplete }: Props) {
   return (
-    <li className='card' key={todo.id}>
+    <li className={`card ${todo.is_complete ? 'completed' : 'not-completed'}`} key={todo.id}>
       <div className='flex'>
         {todo.is_complete ? (
           <div className='grow'>

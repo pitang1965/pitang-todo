@@ -328,15 +328,18 @@ button.primary,
   border: var(--custom-border);
   border-radius: var(--custom-border-radius);
   padding: var(--custom-spacing);
-  background-color: #353535;;
+  
+  margin-top: 1rem;
 }
 
 .completed {
   color: #ff894e;
+  background-color: #222;
 }
 
 .not-completed {
   color: #5db0d7;
+  background-color: #353535;
 }
 
 .avatar {
