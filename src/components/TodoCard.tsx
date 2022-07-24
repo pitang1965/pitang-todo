@@ -26,7 +26,7 @@ export default function TodoCard({ todo, onDelete, onToggleComplete }: Props) {
           <div className='grow'>{todo.task} </div>
         )}
         <button
-          className='button complete-button flex-none'
+          className={`button complete-button flex-none ${todo.is_complete ? 'completed' : 'not-completed'}`}
           onClick={() => onToggleComplete(todo.id)}
         >
           {todo.is_complete ? '未完了に戻す' : '完了にする'}

@@ -328,6 +328,15 @@ button.primary,
   border: var(--custom-border);
   border-radius: var(--custom-border-radius);
   padding: var(--custom-spacing);
+  background-color: #353535;;
+}
+
+.completed {
+  color: #ff894e;
+}
+
+.not-completed {
+  color: #5db0d7;
 }
 
 .avatar {
