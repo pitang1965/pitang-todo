@@ -22,10 +22,6 @@
 
 ### [react-icons](https://react-icons.github.io/react-icons/)
 * React用のアイコンライブラリ。
-* 本アプリではSNSアイコンに使っています。
-
-### [react-router-dom](https://www.npmjs.com/package/react-router-dom)
-* React用のルーティングライブラリ。
 * 本アプリではゴミ箱アイコンを使用しています。
 
 ### [Supabase](https://supabase.com/docs/)
